@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.tianxia.api.domain.txdata.UserDao">
+	<select id="selectUserGameStatus" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+			CASE
+			WHEN max(STATUS) IS NULL THEN
+				'0'
+			ELSE
+				STATUS
+			END AS cnt
+		FROM
+			t_user_gamestatus
+		WHERE
+			uid = #{uid}
+			AND gametype = #{gametype}
+	</select>
+
+	<insert id="insertUserGameStatus" parameterType="java.util.Map">
+		INSERT into t_user_gamestatus (uid,gametype,`status`)
+		values(#{uid},#{gametype},'1');
+	</insert>
+
+	<!-- 根据paymentName获取支付商 -->
+	<select id="selectTcagentYsepay" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		SELECT * FROM t_cagent_ysepay WHERE payment_name = #{paymentName}
+	</select>
+
+	<select id="selectUserTypeHandicap" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		SELECT * FROM t_user_type_handicap  WHERE game=#{game} AND  type_id=(SELECT type_id FROM t_user WHERE uid=#{uid})
+	</select>
+
+	
+	<!-- PS游戏token -->
+	<insert id="insertPSToken" parameterType="java.util.Map">
+		INSERT INTO t_ps_auth(auth,step,create_time,uid) VALUE(#{auth},#{step},now(),#{uid})  
+	</insert>
+	
+	<!-- PS游戏查询token -->
+	<select id="selectPSByauth" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		SELECT tpa.auth,tu.ag_username FROM t_ps_auth tpa LEFT JOIN t_user  tu ON tpa.uid= tu.uid  WHERE auth=#{auth}
+	</select>
+	
+	<!-- PS游戏token 状态-->
+	<update id="UpdatePSToken" parameterType="java.util.Map">
+		UPDATE t_ps_auth SET step=#{step},update_time=NOW()  WHERE auth=#{auth} 
+	</update>
+
+</mapper>
