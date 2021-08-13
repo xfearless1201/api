@@ -38,7 +38,7 @@
 		<log4j.version>1.2.12</log4j.version>
 		<rabbitmq.version>1.5.10.RELEASE</rabbitmq.version>
 		<!-- 其他依赖包 -->
-		<bcprov.jdk15on.version>1.61</bcprov.jdk15on.version>
+		<bcprov.jdk15on.version>1.67</bcprov.jdk15on.version>
 		<hutool.version>4.3.1</hutool.version>
 		<net.sf.json.version>2.3</net.sf.json.version>
 		<axis.version>1.4</axis.version>
